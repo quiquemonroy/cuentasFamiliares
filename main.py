@@ -3,7 +3,8 @@ import os
 from telebot import types
 from datetime import datetime
 from Data import Data
-#ESTO ES UNA PRUEBA
+
+# ESTO ES UNA PRUEBA
 MONTH = datetime.now().strftime("%m")
 MES = datetime.now().strftime("%b")
 TOKEN_TELEGRAM = os.environ.get("TELEGRAM_TOKEN")
@@ -12,7 +13,8 @@ GETME = f"https://api.telegram.org/bot{TOKEN_TELEGRAM}/getMe"
 bot = telebot.TeleBot(TOKEN_TELEGRAM, parse_mode=None)
 data = Data()
 
-
+for i in range(3):
+    print(i)
 def menu(mensaje):
     markup = types.ReplyKeyboardMarkup()
     fila1a = types.KeyboardButton('Registrar gasto')
@@ -76,7 +78,7 @@ def gestionar_mensajes(message):
         bot.send_message(message.from_user.id,
                          f'En el mes de {MES},\n     --Gasto Esti:--\n{data.cuentas_Esti} TOTAL:{data.gasto_esti}€\n     '
                          f'--Gasto Quique:--\n{data.cuentas_qq} TOTAL:{data.gasto_qq}€')
-        bot.send_message(message.from_user.id,data.quien_debe())
+        bot.send_message(message.from_user.id, data.quien_debe())
 
     elif message.text == 'Volver al Menú':
         menu(message)
@@ -99,6 +101,4 @@ def send_welcome(message):
     bot.reply_to(message, "Esto es la ayuda.")
 
 
-
 bot.infinity_polling(interval=0, timeout=20)
-
