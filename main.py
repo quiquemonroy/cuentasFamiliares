@@ -8,7 +8,6 @@ from Data import Data
 MONTH = datetime.now().strftime("%m")
 MES = datetime.now().strftime("%b")
 TOKEN_TELEGRAM = os.environ.get("TELEGRAM_TOKEN")
-GETME = f"https://api.telegram.org/bot{TOKEN_TELEGRAM}/getMe"
 
 bot = telebot.TeleBot(TOKEN_TELEGRAM, parse_mode=None)
 data = Data()
@@ -87,11 +86,6 @@ def gestionar_mensajes(message):
                          f'Apañado!')
 
 
-@bot.message_handler(commands=['cuentas'])
-def send_archivo(message):
-    with open("texto.txt", "r") as f:
-        response = f.read()
-    bot.reply_to(message, response)
 
 
 @bot.message_handler(commands=['help'])
