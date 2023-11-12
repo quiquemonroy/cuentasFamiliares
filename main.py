@@ -13,8 +13,6 @@ GETME = f"https://api.telegram.org/bot{TOKEN_TELEGRAM}/getMe"
 bot = telebot.TeleBot(TOKEN_TELEGRAM, parse_mode=None)
 data = Data()
 
-for i in range(3):
-    print(i)
 def menu(mensaje):
     markup = types.ReplyKeyboardMarkup()
     fila1a = types.KeyboardButton('Registrar gasto')
