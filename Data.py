@@ -22,6 +22,7 @@ class Data:
         self.now = datetime.now().strftime("%d/%m/%y")
         self.gasto_qq = 0
         self.gasto_esti = 0
+        self.cuentas_qq = ""
 
     def write(self, gasto, pagador, sheet):
         self.dataToWrite = [{
@@ -46,11 +47,15 @@ class Data:
         # print(self.data)
         self.gasto_qq = 0
         self.gasto_esti = 0
+        self.cuentas_qq = ""
+        self.cuentas_Esti = ""
         for i in self.data:
             if i['Quien paga'] == 'Quique':
                 self.gasto_qq += float(i['Gasto'].replace(",", "."))
+                self.cuentas_qq = f'{i["Fecha"]} - {i["Gasto"]}\n'
             elif i['Quien paga'] == 'Estibaliz':
                 self.gasto_esti += float(i['Gasto'].replace(",", "."))
+                self.cuentas_Esti = f'{i["Fecha"]} - {i["Gasto"]}\n'
         # print(f'Gasto Esti: {self.gasto_esti}\nGasto Quique: {self.gasto_qq}')
 
     def hacer_cuentas(self):
@@ -91,7 +96,7 @@ class Data:
                 {"Fecha": self.now,
                  "Gasto": f"{(self.mitad - self.gasto_esti)}",
                  "Concepto": "apañar cuentas",
-                 "Quien paga": "Esti"
+                 "Quien paga": "Estibaliz"
                  }
 
             ]
