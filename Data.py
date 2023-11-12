@@ -66,7 +66,6 @@ class Data:
         self.gasto_total = self.gasto_qq + self.gasto_esti
         self.mitad = self.gasto_total / 2
         print(f'Gasto Esti: {self.gasto_esti}\nGasto Quique: {self.gasto_qq}')
-        print(self.quien_debe())
 
     def apañar_cuentas(self):
         self.hacer_cuentas()
@@ -110,6 +109,7 @@ class Data:
             self.response = requests.post(url=self.endpoint, headers=self.header_sheety, json=self.quiqueresta)
 
     def quien_debe(self):
+        self.hacer_cuentas()
         if self.gasto_qq < self.mitad:
             return f"Quique debe {self.mitad - self.gasto_qq}€ a Esti"
         elif self.gasto_qq == self.mitad:
