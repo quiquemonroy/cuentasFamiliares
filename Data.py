@@ -80,7 +80,7 @@ class Data:
                 {"Fecha": self.now,
                  "Gasto": f"{-((self.mitad - self.gasto_qq))}",
                  "Concepto": "apañar cuentas",
-                 "Quien paga": "Esti"
+                 "Quien paga": "Estibaliz"
                  }
 
             ]
