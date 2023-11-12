@@ -11,6 +11,9 @@ class Data:
 
     def __init__(self):
         # selecciona la url del mes en curso
+        self.gasto_total = 0
+        self.mitad = 0
+        self.cuentas_Esti = ""
         self.token = os.environ.get("BEARER_SHEETDB")
         self.header_sheety = {"Authorization": f"Bearer {self.token}"}
         # print(self.header_sheety)
@@ -52,10 +55,10 @@ class Data:
         for i in self.data:
             if i['Quien paga'] == 'Quique':
                 self.gasto_qq += float(i['Gasto'].replace(",", "."))
-                self.cuentas_qq = f'{i["Fecha"]} - {i["Gasto"]}\n'
+                self.cuentas_qq += f'{i["Fecha"]} - {i["Gasto"]}€\n'
             elif i['Quien paga'] == 'Estibaliz':
                 self.gasto_esti += float(i['Gasto'].replace(",", "."))
-                self.cuentas_Esti = f'{i["Fecha"]} - {i["Gasto"]}\n'
+                self.cuentas_Esti += f'{i["Fecha"]} - {i["Gasto"]}€\n'
         # print(f'Gasto Esti: {self.gasto_esti}\nGasto Quique: {self.gasto_qq}')
 
     def hacer_cuentas(self):
@@ -63,12 +66,7 @@ class Data:
         self.gasto_total = self.gasto_qq + self.gasto_esti
         self.mitad = self.gasto_total / 2
         print(f'Gasto Esti: {self.gasto_esti}\nGasto Quique: {self.gasto_qq}')
-        if self.gasto_qq < self.mitad:
-            print(f"Quique debe {self.mitad - self.gasto_qq}€ a Esti")
-        elif self.gasto_qq == self.mitad:
-            print(f"Está todo apañado")
-        else:
-            print(f"Esti debe {self.mitad - self.gasto_esti}€ a Quique")
+        print(self.quien_debe())
 
     def apañar_cuentas(self):
         self.hacer_cuentas()
@@ -110,3 +108,11 @@ class Data:
             ]
             self.response = requests.post(url=self.endpoint, headers=self.header_sheety, json=self.estiApana)
             self.response = requests.post(url=self.endpoint, headers=self.header_sheety, json=self.quiqueresta)
+
+    def quien_debe(self):
+        if self.gasto_qq < self.mitad:
+            return f"Quique debe {self.mitad - self.gasto_qq}€ a Esti"
+        elif self.gasto_qq == self.mitad:
+            return f"Está todo apañado"
+        else:
+            return f"Esti debe {self.mitad - self.gasto_esti}€ a Quique"

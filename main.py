@@ -72,9 +72,11 @@ def gestionar_mensajes(message):
 
     elif message.text == 'Hacer Cuentas':
         data.get_data()
+        data.hacer_cuentas()
         bot.send_message(message.from_user.id,
                          f'En el mes de {MES},\n     --Gasto Esti:--\n{data.cuentas_Esti} TOTAL:{data.gasto_esti}€\n     '
                          f'--Gasto Quique:--\n{data.cuentas_qq} TOTAL:{data.gasto_qq}€')
+        print(data.quien_debe())
 
     elif message.text == 'Volver al Menú':
         menu(message)
