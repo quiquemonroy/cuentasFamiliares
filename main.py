@@ -2,14 +2,15 @@ import telebot
 import os
 from telebot import types
 from datetime import datetime
-from Data import Data
+from Data_stein import Data
+from telebot.util import quick_markup
 
 # ESTO ES UNA PRUEBA
 MONTH = datetime.now().strftime("%m")
 MES = datetime.now().strftime("%b")
 TOKEN_TELEGRAM = os.environ.get("TELEGRAM_TOKEN")
 
-bot = telebot.TeleBot(TOKEN_TELEGRAM, parse_mode=None)
+bot = telebot.TeleBot(TOKEN_TELEGRAM, parse_mode="html")
 data = Data()
 
 def menu(mensaje):
@@ -20,7 +21,7 @@ def menu(mensaje):
     fila2b = types.KeyboardButton('Ver ayuda')
     markup.row(fila1a, fila1b)
     markup.row(fila2a, fila2b)
-    bot.send_message(mensaje.from_user.id, "Elige una opción:", reply_markup=markup)
+    bot.send_message(mensaje.from_user.id, "<b>Elige una opción:</b>", reply_markup=markup)
 
 
 def menu_gasto(mensaje):
@@ -46,7 +47,7 @@ def menu_gasto(mensaje):
     bot.send_message(mensaje.from_user.id, "¿Cuánto te has gastado?", reply_markup=markup)
 
 
-@bot.message_handler(commands=["empezar"])
+@bot.message_handler(commands=["menu"])
 def empezar(message):
     menu(message)
 
@@ -61,7 +62,7 @@ def gestionar_mensajes(message):
         gasto = float(message.text.replace("€", "").replace(",", "."))
         nombre = str(message.from_user.first_name)
         data.write(gasto, nombre, MONTH)
-        if data.response.status_code == 201:
+        if data.response.status_code == 200:
             bot.send_message(message.from_user.id, 'Gasto añadido.\nPulsa empezar si quieres hacer algo más.')
         else:
             bot.send_message(message.from_user.id, 'Algo ha fallado, no se ha añadido el gasto.')
@@ -84,12 +85,19 @@ def gestionar_mensajes(message):
         data.apañar_cuentas()
         bot.send_message(message.from_user.id,
                          f'Apañado!')
+    elif message.text == 'Ayuda':
+        pass
 
 
 
 
 @bot.message_handler(commands=['help'])
 def send_welcome(message):
+    markup = quick_markup({
+        'Twitter': {'url': 'https://twitter.com'},
+        'Facebook': {'url': 'https://facebook.com'},
+        'Back': {'callback_data': 'whatever'}
+    }, row_width=2)
     bot.reply_to(message, "Esto es la ayuda.")
 
 
