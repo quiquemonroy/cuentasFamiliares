@@ -55,10 +55,10 @@ class Data:
         for i in self.data:
             if i['Quien paga'] == 'Quique':
                 self.gasto_qq += float(i['Gasto'].replace(",", "."))
-                self.cuentas_qq += f'{i["Fecha"]} - {i["Gasto"]}€\n'
+                self.cuentas_qq += f'{i["Fecha"]} ⎯⎯  {i["Gasto"]}€\n'
             elif i['Quien paga'] == 'Estíbaliz':
                 self.gasto_esti += float(i['Gasto'].replace(",", "."))
-                self.cuentas_Esti += f'{i["Fecha"]} - {i["Gasto"]}€\n'
+                self.cuentas_Esti += f'{i["Fecha"]} ⎯⎯ {i["Gasto"]}€\n'
         # print(f'Gasto Esti: {self.gasto_esti}\nGasto Quique: {self.gasto_qq}')
 
     def hacer_cuentas(self):
@@ -111,11 +111,11 @@ class Data:
     def quien_debe(self):
         self.hacer_cuentas()
         if self.gasto_qq < self.mitad:
-            return f"Quique debe {self.mitad - self.gasto_qq}€ a Esti"
+            return f"🔴🔴🔴Quique debe {self.mitad - self.gasto_qq}€ a Esti🔴🔴"
         elif self.gasto_qq == self.mitad:
-            return f"Está todo apañado"
+            return f"🐥🐥🐥Está todo apañado🐥🐥🐥"
         else:
-            return f"Esti debe {self.mitad - self.gasto_esti}€ a Quique"
+            return f"🔴🔴🔴Esti debe {self.mitad - self.gasto_esti}€ a Quique🔴🔴🔴"
 
 # data = Data()
 # # data.write(234,"quique",MONTH)
