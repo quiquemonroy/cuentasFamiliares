@@ -142,17 +142,8 @@ def gestionar_mensajes(message):
         apanar_cuentas(message)
 
     elif message.text == 'Ver ayuda\n⁇':
-        bot.send_message(message.from_user.id, 'Escribe aquí ➡️ @this_Is_Fine86')
+        bot.send_message(message.from_user.id, 'Escribe aquí ➡️ @this_Is_Fine86\n\nSi te has equivocado en un gasto, puedes borrarlo desde el excel, por ahora.')
 
-
-@bot.message_handler(commands=['help'])
-def send_welcome(message):
-    markup = quick_markup({
-        'Twitter': {'url': 'https://twitter.com'},
-        'Facebook': {'url': 'https://facebook.com'},
-        'Back': {'callback_data': 'whatever'}
-    }, row_width=2)
-    bot.reply_to(message, "Esto es la ayuda.")
 
 
 bot.infinity_polling(interval=0, timeout=20)
