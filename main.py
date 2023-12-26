@@ -96,6 +96,12 @@ def gestionar_mensajes(message):
         data.write(gasto, nombre, MONTH)
         if data.response.status_code == 200:
             bot.send_message(message.from_user.id, '⚡⚡Gasto añadido.⚡⚡️')
+            mensaje_gasto = f"Hola! {message.from_user.first_name} acaba de añadir un gasto de {gasto}€. No por nada, pero que lo sepas."
+            if message.from_user.username == "9623951":
+                bot.send_message(chat_id="61870395",text=mensaje_gasto)
+            else:
+                bot.send_message(chat_id="9623951", text=mensaje_gasto)
+                print(message.from_user.id)
             time.sleep(3)
             menu(message)
         else:
