@@ -142,7 +142,7 @@ def gestionar_mensajes(message):
         apanar_cuentas(message)
 
     elif message.text == 'Ver ayuda\n⁇':
-        bot.send_message(message.from_user.id, 'Escribe aquí ➡️ @this_Is_Fine86\n\nSi te has equivocado en un gasto, puedes borrarlo desde el excel, por ahora.')
+        bot.send_message(message.from_user.id, 'Escribe aquí ➡️ @this_Is_Fine86\n\nSi te has equivocado en un gasto,  puedes borrarlo desde el excel, por ahora.')
 
 
 
