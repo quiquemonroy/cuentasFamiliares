@@ -1,16 +1,19 @@
-import telebot
 import os
-from telebot import types
-from datetime import datetime
-from Data_stein import Data
-from telebot.util import quick_markup
 import time
+from datetime import datetime
+
+import telebot
+from telebot import types
+
+from Data_stein import Data
 
 # ESTO ES UNA PRUEBA
 MONTH = datetime.now().strftime("%m")
 MES = datetime.now().strftime("%b")
 TOKEN_TELEGRAM = os.environ.get("TELEGRAM_TOKEN")
-
+ID_QUIQUE = os.environ['ID_QUIQUE']
+ID_ESTI = os.environ['ID_ESTI']
+ID_COMPARAR = os.environ['ID_COMPARAR']
 bot = telebot.TeleBot(TOKEN_TELEGRAM, parse_mode="html")
 data = Data()
 
@@ -63,8 +66,6 @@ def menu_gasto(mensaje):
     bot.send_message(mensaje.from_user.id, "¿Cuánto te has gastado?", reply_markup=markup)
 
 
-
-
 def apanar_cuentas(mensaje):
     markup = types.ReplyKeyboardMarkup()
     fila1a = types.KeyboardButton('Sí, ya he hecho bizum')
@@ -97,10 +98,12 @@ def gestionar_mensajes(message):
         if data.response.status_code == 200:
             bot.send_message(message.from_user.id, '⚡⚡Gasto añadido.⚡⚡️')
             mensaje_gasto = f"Hola! {message.from_user.first_name} acaba de añadir un gasto de {gasto}€. No por nada, pero que lo sepas."
-            if message.from_user.username == "9623951":
-                bot.send_message(chat_id="61870395",text=mensaje_gasto)
+            if message.from_user.id == int(ID_ESTI):
+                bot.send_message(chat_id=ID_QUIQUE,text=mensaje_gasto)
+                print(message.from_user)
+                print(message.from_user.first_name)
             else:
-                bot.send_message(chat_id="9623951", text=mensaje_gasto)
+                bot.send_message(chat_id=ID_ESTI, text=mensaje_gasto)
                 print(message.from_user.id)
             time.sleep(3)
             menu(message)
@@ -137,7 +140,7 @@ def gestionar_mensajes(message):
     elif message.text == 'Sí, ya he hecho bizum':
         data.apañar_cuentas()
         bot.send_message(message.from_user.id,
-                         f'✅✅✅¡Apañado!✅✅✅')
+                         '✅✅✅¡Apañado!✅✅✅')
         time.sleep(3)
         menu(message)
     elif message.text == 'Ver datos en excel\n👁️':

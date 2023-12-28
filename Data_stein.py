@@ -28,7 +28,6 @@ class Data:
         self.cuentas_qq = ""
 
     def write(self, gasto, pagador, sheet):
-        self.now = datetime.now().strftime("%d/%m/%y")
         self.dataToWrite = [{
             "Fecha": self.now,
             "Gasto": gasto,
@@ -46,7 +45,6 @@ class Data:
             print("algo ha fallado, mira a ver qué pasa.")
 
     def get_data(self):
-        self.now = datetime.now().strftime("%d/%m/%y")
         self.response = requests.get(url=self.endpoint,auth=self.auth)
         self.data = json.loads(self.response.text)
         # print(self.data)
@@ -61,18 +59,15 @@ class Data:
             elif i['Quien paga'] == 'Estíbaliz':
                 self.gasto_esti += float(i['Gasto'].replace(",", "."))
                 self.cuentas_Esti += f'{i["Fecha"]} ⎯⎯ {i["Gasto"]}€\n'
-                
         # print(f'Gasto Esti: {self.gasto_esti}\nGasto Quique: {self.gasto_qq}')
 
     def hacer_cuentas(self):
-        self.now = datetime.now().strftime("%d/%m/%y")
         self.get_data()
         self.gasto_total = self.gasto_qq + self.gasto_esti
-        self.mitad = self.gasto_total / 2
+        self.mitad = round(self.gasto_total / 2,2)
         # print(f'Gasto Esti: {self.gasto_esti}\nGasto Quique: {self.gasto_qq}')
 
     def apañar_cuentas(self):
-        self.now = datetime.now().strftime("%d/%m/%y")
         self.hacer_cuentas()
         if self.gasto_qq < self.mitad:
             self.quiqueApana = [
@@ -114,7 +109,6 @@ class Data:
             self.response = requests.post(url=self.endpoint,auth=self.auth, json=self.quiqueresta)
 
     def quien_debe(self):
-        self.now = datetime.now().strftime("%d/%m/%y")
         self.hacer_cuentas()
         if self.gasto_qq < self.mitad:
             return f"🔴🔴🔴Quique debe {self.mitad - self.gasto_qq}€ a Esti🔴🔴"
