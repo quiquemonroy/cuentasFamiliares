@@ -14,20 +14,21 @@ class Data:
         self.gasto_total = 0
         self.mitad = 0
         self.cuentas_Esti = ""
-        self.auth = (os.environ.get("USER"),os.environ.get("PASS"))
+        self.aut = (os.environ.get("USER"),os.environ.get("PASS"))
         # self.token = os.environ.get("BEARER_SHEETDB")
         # self.header_sheety = {"Authorization": f"Bearer {self.token}"}
         # print(self.header_sheety)
-        self.endpoint = f"https://api.steinhq.com/v1/storages/65528ddec5ad5604ce2a16da/{MONTH}"
-        self.response = requests.get(url=self.endpoint, auth=self.auth)  # obtiene los datos de la hoja de este mes.
+        self.endpoint = f'https://api.steinhq.com/v1/storages/65528ddec5ad5604ce2a16da/{datetime.now().strftime("%m")}'
+        self.response = requests.get(url=self.endpoint, auth=self.aut)  # obtiene los datos de la hoja de este mes.
         print(self.response)
         self.data = json.loads(self.response.text)
-        self.now = datetime.now().strftime("%d/%m/%y")
+        self.now = datetime.now().strftime("%d/%m/%y-%X")
         self.gasto_qq = 0
         self.gasto_esti = 0
         self.cuentas_qq = ""
 
     def write(self, gasto, pagador, sheet):
+        self.now = datetime.now().strftime("%d/%m/%y-%X")
         self.dataToWrite = [{
             "Fecha": self.now,
             "Gasto": gasto,
@@ -35,7 +36,7 @@ class Data:
         }
         ]
         self.sheet = {"sheet": sheet}
-        self.response = requests.post(url=self.endpoint, json=self.dataToWrite,auth=self.auth,
+        self.response = requests.post(url=self.endpoint, json=self.dataToWrite,auth=self.aut,
                                       params=self.sheet)
         print(self.response.text)
         print(self.response.status_code)
@@ -45,7 +46,7 @@ class Data:
             print("algo ha fallado, mira a ver qué pasa.")
 
     def get_data(self):
-        self.response = requests.get(url=self.endpoint,auth=self.auth)
+        self.response = requests.get(url=self.endpoint,auth=self.aut)
         self.data = json.loads(self.response.text)
         # print(self.data)
         self.gasto_qq = 0
@@ -68,6 +69,7 @@ class Data:
         # print(f'Gasto Esti: {self.gasto_esti}\nGasto Quique: {self.gasto_qq}')
 
     def apañar_cuentas(self):
+        self.now = datetime.now().strftime("%d/%m/%y-%X")
         self.hacer_cuentas()
         if self.gasto_qq < self.mitad:
             self.quiqueApana = [
@@ -86,8 +88,8 @@ class Data:
                  }
 
             ]
-            self.response = requests.post(url=self.endpoint,auth=self.auth, json=self.quiqueApana)
-            self.response = requests.post(url=self.endpoint, auth=self.auth, json=self.estiresta)
+            self.response = requests.post(url=self.endpoint,auth=self.aut, json=self.quiqueApana)
+            self.response = requests.post(url=self.endpoint, auth=self.aut, json=self.estiresta)
         elif self.gasto_esti < self.mitad:
             self.estiApana = [
                 {"Fecha": self.now,
@@ -105,8 +107,8 @@ class Data:
                  }
 
             ]
-            self.response = requests.post(url=self.endpoint,auth=self.auth, json=self.estiApana)
-            self.response = requests.post(url=self.endpoint,auth=self.auth, json=self.quiqueresta)
+            self.response = requests.post(url=self.endpoint,auth=self.aut, json=self.estiApana)
+            self.response = requests.post(url=self.endpoint,auth=self.aut, json=self.quiqueresta)
 
     def quien_debe(self):
         self.hacer_cuentas()

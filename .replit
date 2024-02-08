@@ -10,5 +10,6 @@ channel = "stable-23_05"
 language = "python3"
 
 [deployment]
-deploymentTarget = "static"
-publicDir = "cuentasfamilia"
+deploymentTarget = "gce"
+run = ["sh", "-c", "python3 main.py"]
+ignorePorts = true
