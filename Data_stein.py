@@ -46,6 +46,7 @@ class Data:
             print("algo ha fallado, mira a ver qué pasa.")
 
     def get_data(self):
+        self.endpoint = f'https://api.steinhq.com/v1/storages/65528ddec5ad5604ce2a16da/{datetime.now().strftime("%m")}'
         self.response = requests.get(url=self.endpoint,auth=self.aut)
         self.data = json.loads(self.response.text)
         # print(self.data)
@@ -74,7 +75,7 @@ class Data:
         if self.gasto_qq < self.mitad:
             self.quiqueApana = [
                 {"Fecha": self.now,
-                 "Gasto": f"{self.mitad - self.gasto_qq}",
+                 "Gasto": f"{round(self.mitad - self.gasto_qq)}",
                  "Concepto": "apañar cuentas",
                  "Quien paga": "Quique"
                  }
@@ -82,7 +83,7 @@ class Data:
             ]
             self.estiresta = [
                 {"Fecha": self.now,
-                 "Gasto": f"{-((self.mitad - self.gasto_qq))}",
+                 "Gasto": f"{-(round(self.mitad - self.gasto_qq))}",
                  "Concepto": "apañar cuentas",
                  "Quien paga": "Estíbaliz"
                  }
@@ -93,7 +94,7 @@ class Data:
         elif self.gasto_esti < self.mitad:
             self.estiApana = [
                 {"Fecha": self.now,
-                 "Gasto": f"{(self.mitad - self.gasto_esti)}",
+                 "Gasto": f"{round(self.mitad - self.gasto_esti)}",
                  "Concepto": "apañar cuentas",
                  "Quien paga": "Estíbaliz"
                  }
@@ -101,7 +102,7 @@ class Data:
             ]
             self.quiqueresta = [
                 {"Fecha": self.now,
-                 "Gasto": f"{-((self.mitad - self.gasto_esti))}",
+                 "Gasto": f"{-(round(self.mitad - self.gasto_esti))}",
                  "Concepto": "apañar cuentas",
                  "Quien paga": "Quique"
                  }

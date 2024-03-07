@@ -112,6 +112,7 @@ def gestionar_mensajes(message):
         bot.send_message(message.from_user.id, 'Cuánto?')
 
     elif message.text == 'Hacer Cuentas\n📄':
+        MES = datetime.now().strftime("%b")
         data.get_data()
         data.hacer_cuentas()
         bot.send_message(message.from_user.id,
@@ -139,6 +140,14 @@ def gestionar_mensajes(message):
         data.apañar_cuentas()
         bot.send_message(message.from_user.id,
                          '✅✅✅¡Apañado!✅✅✅')
+        mensaje_apañado = f"Hola! {message.from_user.first_name} acaba de apañar las cuentas."
+        if message.from_user.id == int(ID_ESTI):
+            bot.send_message(chat_id=ID_QUIQUE,text=mensaje_apañado)
+            print(message.from_user)
+            print(message.from_user.first_name)
+        else:
+            bot.send_message(chat_id=ID_ESTI, text=mensaje_apañado)
+            print(message.from_user.id)
         time.sleep(3)
         menu(message)
     elif message.text == 'Ver datos en excel\n👁️':
