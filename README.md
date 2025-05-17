@@ -1,4 +1,5 @@
 # 💰 Bot de Gestión de Gastos Familiares 🤖
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/9c254459-5660-41e3-84f9-735fad6cba93" />
 
 Un bot de Telegram para registrar y gestionar gastos compartidos entre parejas/familiares, con integración directa a Google Sheets.
 
